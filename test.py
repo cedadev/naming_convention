@@ -34,6 +34,27 @@ class TestNameingConvention(unittest.TestCase):
         right_regex_pattern = "/badc/acsoe/data/(?P<instrument>[^/]+)(/.*/?)(?P<project>[^/_]+)_(?P<site>[^/_-]+)-(?P<hour>\d{2})(?P<minute>\d{2})\.dat"
         nc = nameing_convention.NameConvention(pattern)
         self.assertEqual(nc.regex.pattern, right_regex_pattern)
-        
+
+    def test_time_prefix_regex(self):
+        pattern = "/badc/acsoe/data/<instrument>/.../<project>_<site>-<proc_hour><proc_minute>.dat"
+        right_regex_pattern = "/badc/acsoe/data/(?P<instrument>[^/]+)(/.*/?)(?P<project>[^/_]+)_(?P<site>[^/_-]+)-(?P<proc_hour>\d{2})(?P<proc_minute>\d{2})\.dat"
+        nc = nameing_convention.NameConvention(pattern)
+        self.assertEqual(nc.regex.pattern, right_regex_pattern)
+
+    def test_acsoe_analyses(self):
+        pattern = "/badc/acsoe/data/<instrument>/<project>_<site>-<date>.dat"
+        right_regex_pattern = "/badc/acsoe/data/(?P<instrument>[^/]+)/(?P<project>[^/_]+)_(?P<site>[^/_-]+)-(?P<date>\d{8})\.dat"
+        path = "/badc/acsoe/data/inst234/projXXX_RAL.3-20230823.dat"
+        result = {'instrument': 'inst234', 'project': 'projXXX', 'site': 'RAL.3', 'date': '20230823'}
+        nc = nameing_convention.NameConvention(pattern)
+        self.assertEqual(nc.analyses(path), result)
+
+
+#    def test_repeat_label_regex(self):
+#        pattern = "<inst>/<project>_<inst>.dat"
+#        right_regex_pattern = "(?P<inst>[^/]+)(?P<project>[^/_]+)_(?P<inst2>[^/_.]+)\.dat"
+#        nc = nameing_convention.NameConvention(pattern)
+#        self.assertEqual(nc.regex.pattern, right_regex_pattern)   
+
 if __name__ == '__main__':
     unittest.main()
