@@ -74,8 +74,13 @@ class NameConvention:
                     chars += "-"
                 label_pattern = f"[^{chars}]+"
 
-            regex = regex.replace(f"<{to_replace}>", f"(?P<{label}>{label_pattern})", 1)
+            regex = regex.replace(f"<{to_replace}>", f"__REPLACE__")
+            print(regex)
+            regex = regex.replace(f"__REPLACE__", f"(?P<{label}>{label_pattern})", 1)
+            #regex = re.sub("(?<!P)<{to_replace}>", f"(?P={label})", regex)
+            regex = regex.replace(f"__REPLACE__", f"(?P={label})")
             print(regex, label_pattern)
+            time.sleep(0.05)
         return regex
 
     @staticmethod

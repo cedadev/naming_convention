@@ -71,11 +71,12 @@ class TestNameingConvention(unittest.TestCase):
         self.assertEqual(nc.analyses(path), result)
 
 
-#    def test_repeat_label_regex(self):
-#        pattern = "<inst>/<project>_<inst>.dat"
-#        right_regex_pattern = "(?P<inst>[^/]+)(?P<project>[^/_]+)_(?P<inst2>[^/_.]+)\.dat"
-#        nc = nameing_convention.NameConvention(pattern)
-#        self.assertEqual(nc.regex.pattern, right_regex_pattern)   
+    def test_repeat_label_regex(self):
+        pattern = "<inst>/<project>_<inst>.dat"
+        right_regex_pattern = "(?P<inst>[^/]+)/(?P<project>[^/_]+)_(?P=inst)\.dat"
+        nc = nameing_convention.NameConvention(pattern)
+        self.assertEqual(nc.regex.pattern, right_regex_pattern)
+        path = "XXX/Proj_XXX.dat"   
 
 if __name__ == '__main__':
     unittest.main()
