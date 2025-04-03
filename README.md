@@ -6,18 +6,20 @@ nc = NameConvention("/badc/acsoe/data/<instrument>/.../<project>_<site>-YYYYMMDD
 ```
 
 The end of the pattern is implied as the end of the string ($)
-<instrument> is mapped to (?P<instrument>[^/]+)
-... is any intermediate string .* 
-<project> is mapped to  (?P<project>[^/_]+)
-<site> is mapped to (?P<site>[^_-])
-YYYYMMDD is mapped to (?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})
+`<instrument>` is mapped to `(?P<instrument>[^/]+)`
+`...` is any intermediate string `.*` 
+`<project>` is mapped to  `(?P<project>[^/_]+)`
+`<site>` is mapped to `(?P<site>[^_-])`
+`YYYYMMDD` is mapped to `(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2})`
 
 The result as regex is:
-"/badc/acsoe/data/(?P<instrument>[^/]+)(.*)?/(?P<project>[^/_]+)_(?P<site>[^_-])-(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2}).dat
+`/badc/acsoe/data/(?P<instrument>[^/]+)(.*)?/(?P<project>[^/_]+)_(?P<site>[^_-])-(?P<year>\d{4})(?P<month>\d{2})(?P<day>\d{2}).dat`
 
 Use the nameing convention like a compiled regex
 
+```python
 m = nc.search("string to search")
+```
 
 As dict:
 
