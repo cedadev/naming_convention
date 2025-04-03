@@ -5,6 +5,7 @@ a nameing convention is a thing a little like a regex or a glob with named compo
 nc = NameConvention("/badc/acsoe/data/<instrument>/.../<project>_<site>-YYYYMMDD.dat")
 ```
 
+This is just a more consice and nateral way to write a regular expression. 
 The end of the pattern is implied as the end of the string ($)
 `<instrument>` is mapped to `(?P<instrument>[^/]+)`
 `...` is any intermediate string `.*` 
@@ -24,7 +25,7 @@ m = nc.search("string to search")
 As dict:
 
 ```python
-nc.components("/badc/acsoe/data/sky_cam/.../TEX_chilbolton-20021225.dat")
+nc.components("/badc/acsoe/data/sky_cam/xxx/yyy/zzz/TEX_chilbolton-20021225.dat")
 # returns components as dict
 {"instrument": "sky_cam",
  "project": TEX,
@@ -32,11 +33,13 @@ nc.components("/badc/acsoe/data/sky_cam/.../TEX_chilbolton-20021225.dat")
  "datetime": DateTime("20021225")}
 ```
 
- optional field have square brakets []
+ optional field have square brakets `[]`
 
+```python
 nc = NameConvention("/data/<instrument>[_<model>]_YYYYMMDD.dat")
+```
 
-[_<model>] mapps to (_(?P<model>[^_]))?
+`[_<model>]` mapps to `(_(?P<model>[^_]))?`
 
 Fixed length fields
 
@@ -59,15 +62,20 @@ nc.components("dsfsdfhsdf_20180123L23TEX2.dat")
    plain regex.
 
 These are ok:
+
+```python
 nc = NameConvention("<prod>_(?P<term>(T4|WS|aabc))_XXXX.dat")
 
 nc = NameConvention("<prod>_([a-f]{4})_XXXX.dat")
 
 nc = NameConvention("<prod>_\d{4}_XXXX.dat")
+```
 
 This is not ok
 
+```python
 nc = NameConvention("<prod>_[a-f]{4}_XXXX.dat")
+```
 
 ## methods
 
