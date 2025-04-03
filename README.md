@@ -1,7 +1,9 @@
 
 a nameing convention is a thing a little like a regex or a glob with named components 
 
+```python
 nc = NameConvention("/badc/acsoe/data/<instrument>/.../<project>_<site>-YYYYMMDD.dat")
+```
 
 The end of the pattern is implied as the end of the string ($)
 <instrument> is mapped to (?P<instrument>[^/]+)
